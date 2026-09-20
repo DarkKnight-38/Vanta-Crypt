@@ -3,104 +3,107 @@ import os
 import hashlib
 import pickle
 import random
-
-def _prepare_filepath(filename, default_ext):
-    filename = str(filename).strip()
-    if not filename:
-        return ""
-    if not filename.lower().endswith(default_ext.lower()):
-        filename += default_ext
-    directory = os.path.dirname(filename)
-    if directory:
-        os.makedirs(directory, exist_ok=True)
-    return filename
-
 def min_encrypt(encrypted_file, encryption_key_file, text, uid):
-    if not text:
-        print("[!] ERROR: Text to encrypt cannot be empty.")
-        return False
-
-    encrypted_file = _prepare_filepath(encrypted_file, '.txt')
-    encryption_key_file = _prepare_filepath(encryption_key_file, '.dat')
-
-    if not encrypted_file or not encryption_key_file:
-        print("[!] ERROR: Filenames cannot be empty.")
-        return False
-
+    encrypted_file=str(encrypted_file)+'.txt'
+    encryption_key_file=str(encryption_key_file)+'.dat'
+    keys=[]
+    encrypted_text=""
+    text_length=len(text)
     if os.path.exists(encrypted_file):
         print(f"[!] WARNING: The file '{encrypted_file}' already exists and will be overwritten.")
     if os.path.exists(encryption_key_file):
         print(f"[!] WARNING: The file '{encryption_key_file}' already exists and will be overwritten.")
-
-    keys = []
-    encrypted_chars = []
-    for char in text:
-        random_shift = random.randint(-20, 20)
+    if encrypted_file=='' or encryption_key_file=='':
+        print(f"[!] WARNING: File name cannot be empty")
+        return
+    for i in range(text_length):
+        random_shift=random.randint(-20,20)
         keys.append(random_shift)
-        encrypted_chars.append(chr(ord(char) + random_shift))
 
-    encrypted_text = "".join(encrypted_chars)
+        char_code=ord(text[i])
+        shifted_code=char_code+random_shift
+        encrypted_text+=chr(shifted_code)
 
-    try:
-        with open(encrypted_file, 'w', encoding='utf-8') as f_txt:
-            f_txt.write(encrypted_text)
+    with open (encrypted_file,'w', encoding='utf-8') as f_txt:
+        f_txt.write(encrypted_text)
 
-        with open(encryption_key_file, 'wb') as f_bin:
-            payload = {'keys': keys, 'uniqueid': uid}
-            pickle.dump(payload, f_bin)
-    except (OSError, IOError, PermissionError) as e:
-        print(f"[!] ERROR: Failed to write encrypted files: {e}")
-        return False
+    with open (encryption_key_file,'wb') as f_bin:
+        payload={'keys':keys,'uniqueid':uid}
+        pickle.dump(payload,f_bin)
 
-    print("\n[*] SUCCESS: Data Encrypted.")
-    print(f" > Ciphertext written to : {encrypted_file}")
-    print(f" > Keys & UID written to : {encryption_key_file}\n")
-    return True
+    print()
+    print("[*] SUCCESS: Data Encrypted.")
+    output_msg_part_1 = " > Ciphertext written to : "
+    final_output_1 = output_msg_part_1 + str(encrypted_file)
+    print(final_output_1)
+    
+    output_msg_part_2 = " > Keys & UID written to : "
+    final_output_2 = output_msg_part_2 + str(encryption_key_file)
+    print(final_output_2) 
+    print()
 
 def inter_encrypt():
-    print("[i] Intermediate encryption is not yet implemented.")
-
+    pass
 def max_encrypt(text, encrypted_file, encryption_key_file, UID):
-    if not text:
-        print("[!] ERROR: Text to encrypt cannot be empty.")
-        return False
-
-    encrypted_file = _prepare_filepath(encrypted_file, '.txt')
-    encryption_key_file = _prepare_filepath(encryption_key_file, '.dat')
-
-    if not encrypted_file or not encryption_key_file:
-        print("[!] ERROR: Filenames cannot be empty.")
-        return False
+    encrypted_file=str(encrypted_file)+'.txt'
+    encryption_key_file=str(encryption_key_file)+'.dat'
+    
+    encoding_format = 'utf-8'
+    text_bytes = text.encode(encoding_format)
+    
+    hash_generator = hashlib.sha256()
+    hash_generator.update(text_bytes)
+    og_hash = hash_generator.hexdigest()
+    
+    keys = []
+    text_length = len(text)
 
     if os.path.exists(encrypted_file):
         print(f"[!] WARNING: The file '{encrypted_file}' already exists and will be overwritten.")
     if os.path.exists(encryption_key_file):
-        print(f"[!] WARNING: The file '{encryption_key_file}' already exists and will be overwritten.")
-
-    text_bytes = text.encode('utf-8')
-    og_hash = hashlib.sha256(text_bytes).hexdigest()
-
-    keys = [secrets.randbelow(256) for _ in text]
-    encrypted_integers = [ord(char) ^ key for char, key in zip(text, keys)]
-    hex_formatted_ciphertext = bytearray(encrypted_integers).hex()
-
-    security_payload = {
-        'keys': keys,
-        'signature': og_hash,
-        'uniqueid': UID
-    }
-
-    try:
-        with open(encrypted_file, 'w', encoding='utf-8') as f_txt:
-            f_txt.write(hex_formatted_ciphertext)
-
-        with open(encryption_key_file, 'wb') as f_bin:
-            pickle.dump(security_payload, f_bin)
-    except (OSError, IOError, PermissionError) as e:
-        print(f"[!] ERROR: Failed to write encrypted files: {e}")
-        return False
-
-    print("\n[*] SUCCESS: Data Encrypted.")
-    print(f" > Ciphertext written to : {encrypted_file}")
-    print(f" > Keys & Hash written to: {encryption_key_file}\n")
-    return True
+        print(f"[!] WARNGING: The file '{encryption_key_file}' already exists and will be overwritten.")
+    if encrypted_file=='' or encryption_key_file=='':
+        print(f"[!] WARNING: File name cannot be empty")
+        return
+    for i in range(text_length):
+        random_value = secrets.randbelow(256)
+        keys.append(random_value)
+        
+    encrypted_integers = []
+    index_tracker = 0
+    
+    for char in text:
+        char_code = ord(char)
+        current_key = keys[index_tracker]
+        xored_value = char_code ^ current_key
+        encrypted_integers.append(xored_value)
+        index_tracker += 1
+        
+    encrypted_bytes_array = bytearray(encrypted_integers)
+    hex_formatted_ciphertext = encrypted_bytes_array.hex()
+    
+    text_file_object = open(encrypted_file, 'w')
+    text_file_object.write(hex_formatted_ciphertext)
+    text_file_object.close()
+    
+    security_payload = dict()
+    
+    security_payload['keys'] = keys
+    security_payload['signature'] = og_hash
+    security_payload['uniqueid'] = UID
+    
+    binary_file_object = open(encryption_key_file, 'wb')
+    pickle.dump(security_payload, binary_file_object)
+    binary_file_object.close()
+    
+    print()
+    print("[*] SUCCESS: Data Encrypted.")
+    
+    output_msg_part_1 = " > Ciphertext written to : "
+    final_output_1 = output_msg_part_1 + str(encrypted_file)
+    print(final_output_1)
+    
+    output_msg_part_2 = " > Keys & Hash written to: "
+    final_output_2 = output_msg_part_2 + str(encryption_key_file)
+    print(final_output_2)
+    print()

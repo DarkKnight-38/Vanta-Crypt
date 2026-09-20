@@ -1,13 +1,13 @@
+# Simple in-memory log for this session. It resets when the program closes.
+history=[]
 history = []
 
 def pull_hist():
-    if not history:
-        print("[i] No actions recorded in this session yet.")
-        return
-    print("\n--- SESSION ACTION HISTORY ---")
-    for i, entry in enumerate(history, 1):
-        print(f"[{i}] {entry}")
-    print()
+    # Print every message we've stored, in the order they happened.
+    for i in history:
+        print(i)
 
 def push_hist(message):
-    history.append(str(message))
+    # Add one new line to the log.
+    history.append(message)
+
