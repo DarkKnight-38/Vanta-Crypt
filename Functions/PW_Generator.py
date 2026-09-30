@@ -36,3 +36,4 @@ def password_generator():
 
     password = ''.join(random.choice(password_chars) for _ in range(password_length))
     print(f"Generated Password: {password}")
+    return password

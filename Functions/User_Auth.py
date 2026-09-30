@@ -4,24 +4,22 @@ import random
 import pwinput
 
 def login():
-   from Main_UI import main_menu
    print("\n--- USER LOGIN ---")
    username = input('Enter your username: ').strip()
    password = pwinput.pwinput(prompt='Enter your password: ', mask='*').strip()
    if username == '' or password == '':
        print('[!] Username and password cannot be empty. Login aborted.')
-       return main_menu()
+       return None, None
    for row in csv.reader(open('Data\\UserData\\user_data.csv', 'r', newline='')):
        if row and row[0] == username and row[1] == password:
            print(f"Logging in as {username}...")
            print('[*] Login successful!')
            return row[2], row[1]
    print('[!] Invalid username or password. Login failed.')
-   return main_menu()
+   return None, None
 
 
 def register():
-    from Main_UI import main_menu
     print("\n--- USER REGISTRATION ---")
     username = input('Enter a username: ').strip()
     if username == '':
@@ -41,13 +39,13 @@ def register():
                    
     if username in existing_users:
         print('[!] User already exists! Rerouting to main menu...')
-        return main_menu()
+        return False
 
   
     password = pwinput.pwinput(prompt='Enter a password: ', mask='*').strip()
     if password == '':
         print('[!] Password cannot be empty. Registration aborted.')
-        return main_menu()
+        return None,None
 
     attempts = 3
     re_password = pwinput.pwinput(prompt='Enter the password again: ', mask='*').strip()
@@ -55,7 +53,7 @@ def register():
  
     if password != re_password:
         print('[!] Re-Entered password is wrong. Registration failed. Please start over.')
-        return main_menu()
+        return None,None
 
     existing_ids = []
     f=open('Data\\UserData\\user_data.csv', 'r', newline='')

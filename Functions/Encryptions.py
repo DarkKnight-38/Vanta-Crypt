@@ -3,6 +3,7 @@ import os
 import hashlib
 import pickle
 import random
+
 def min_encrypt(encrypted_file, encryption_key_file, text, uid):
     encrypted_file=str(encrypted_file)+'.txt'
     encryption_key_file=str(encryption_key_file)+'.dat'
