@@ -230,11 +230,3 @@ def main_menu():
             sys.exit(0)
 
 
-if __name__ == "__main__":
-    while True:
-        try:
-            main_menu()
-        except (KeyboardInterrupt, EOFError):
-            print("\n")
-            UI.warning("Session interrupted by user.")
-            sys.exit(0)
