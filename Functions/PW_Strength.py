@@ -1,89 +1,60 @@
+import UI
+
 def strength_test():
+    UI.header("Password Strength Audit", "Comprehensive complexity evaluation")
     
-    print("--- PASSWORD STRENGTH TEST ---")
+    password = UI.prompt_secret("Enter password to evaluate")
+    if not password:
+        UI.warning("Password cannot be empty.")
+        return
 
     score = 0
-    password = input("Enter your password to begin the evaluation: ")
-    e = ''
+    suggestions = []
 
-    # 1. Check for minimum length requirement
     password_length = len(password)
-    
-    if password_length >= 8:
+    has_length = password_length >= 8
+    if has_length:
         score += 1
     else:
-        e += '[!] Try increasing the length of your password to at least 8 characters.\n'
+        suggestions.append("Increase password length to at least 8 characters (14+ recommended).")
 
-    # 2. Check for uppercase letters
-    has_upper = False
-    
-    for char in password:
-        if char.isupper():
-            has_upper = True
-            break
-
-    if has_upper == True:
+    has_upper = any(c.isupper() for c in password)
+    if has_upper:
         score += 1
     else:
-        e += '[!] Try adding uppercase letters to your password.\n'
+        suggestions.append("Include uppercase letters (A-Z).")
 
-    # 3. Check for lowercase letters
-    has_lower = False
-    
-    for char in password:
-        if char.islower():
-            has_lower = True
-            break
-
-    if has_lower == True:
+    has_lower = any(c.islower() for c in password)
+    if has_lower:
         score += 1
     else:
-        e += '[!] Try adding lowercase letters to your password.\n'
+        suggestions.append("Include lowercase letters (a-z).")
 
-    # 4. Check for numerical digits
-    has_digit = False
-    
-    for char in password:
-        if char.isdigit():
-            has_digit = True
-            break
-
-    if has_digit == True:
+    has_digit = any(c.isdigit() for c in password)
+    if has_digit:
         score += 1
     else:
-        e += '[!] Try adding digits to your password.\n'
+        suggestions.append("Include numerical digits (0-9).")
 
-    # 5. Check for special characters
     special_characters = "!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?"
-    has_special = False
-    
-    for char in password:
-        if char in special_characters:
-            has_special = True
-            break
-
-    if has_special == True:
+    has_special = any(c in special_characters for c in password)
+    if has_special:
         score += 1
     else:
-        e += '[!] Try adding special characters to your password.\n'
+        suggestions.append("Include special symbols (!@#$%^&*...).")
 
-    # Determine and display final strength level
-    print("\n--- RESULTS ---")
-    print(f"Final Score: {score} out of 5")
+    checklist = [
+        ("Length (8+ characters)", has_length),
+        ("Uppercase Characters (A-Z)", has_upper),
+        ("Lowercase Characters (a-z)", has_lower),
+        ("Numerical Digits (0-9)", has_digit),
+        ("Special Symbols (!@#$)", has_special)
+    ]
 
+    UI.strength_display(score, checklist, suggestions if suggestions else None)
     if score == 5:
-        print("Password strength: Very Strong")
-        print("[*] No changes needed, your password is very strong!")
-    elif score == 4 or score == 3:
-        print("Password strength: Strong")
-    elif score == 2:
-        print("Password strength: Weak")
+        UI.success("Hardened Credential: This password satisfies all primary complexity checks.")
+    elif score >= 3:
+        UI.info("Acceptable Credential: Meets baseline requirements, but could be hardened.")
     else:
-        print("Password strength: Very Weak")
-
-    # Print the accumulated suggestions if there are any
-    if e != '':
-        print("\n--- SUGGESTIONS FOR IMPROVEMENT ---")
-        print(e)
-    else:
-        print("\nGreat job creating a secure password!")
+        UI.warning("Weak Credential: Vulnerable to credential stuffing or dictionary attacks.")

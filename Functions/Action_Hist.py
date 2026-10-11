@@ -1,13 +1,10 @@
-# Simple in-memory log for this session. It resets when the program closes.
-history=[]
+import UI
+
 history = []
 
 def pull_hist():
-    # Print every message we've stored, in the order they happened.
-    for i in history:
-        print(i)
+    UI.header("Session Action History", "Chronological audit log of operations")
+    UI.history_table(history)
 
 def push_hist(message):
-    # Add one new line to the log.
-    history.append(message)
-
+    history.append(str(message))
