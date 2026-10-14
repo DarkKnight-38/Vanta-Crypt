@@ -1,3 +1,4 @@
+# Standardize VantaCrypt UI and project documentation.
 import os
 import hashlib
 import pickle

@@ -1,3 +1,4 @@
+# Standardize VantaCrypt UI and project documentation.
 # Direct runtime dependencies; install with: python -m pip install -r requirements.txt
 # Keyboard menus and text, secret, confirmation, and filepath prompts.
 InquirerPy>=0.3.4

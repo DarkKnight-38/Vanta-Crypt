@@ -1,3 +1,4 @@
+# Standardize VantaCrypt UI and project documentation.
 import UI
 
 def strength_test():

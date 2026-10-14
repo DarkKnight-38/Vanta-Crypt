@@ -1,3 +1,4 @@
+<!-- Standardize VantaCrypt UI and project documentation. -->
 # VantaCrypt — Terminal Security Suite
 
 VantaCrypt is an educational Python application for password checks, password generation, local credential management, and text-encryption experiments. Its terminal interface uses Rich panels and tables alongside InquirerPy keyboard menus.
