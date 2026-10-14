@@ -222,7 +222,7 @@ def main_menu():
             UI.set_user(None, None)
             UID = None
             password = None
-            break
+            main_menu()
 
         elif choice == "8" or choice == "B":
             UI.info("Closing VantaCrypt suite. Stay secure!")

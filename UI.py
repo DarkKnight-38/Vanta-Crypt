@@ -41,13 +41,12 @@ THEME = Theme({
 console = Console(theme=THEME)
 
 ASCII_BANNER = r"""
-  ██▒   █ ▓ ▄▄▄        ███▄    █  ▄▄▄█████▓ ▄▄▄        ▄████▄   ██▀███  ▓██   ██▓  ██▓███   ▄▄▄█████▓
-▓██░   █▒ ▒████▄      ██ ▀█   █ ▓   ██▒ ▓▒ ▒████▄     ▒██▀ ▀█  ▓██ ▒ ██▒ ▒██  ██▒ ▓██░  ██▒ ▓  ██▒ ▓▒
- ▓██  █▒░ ▒██  ▀█▄   ▓██  ▀█ ██▒▒  ▓██░ ▒░ ▒██  ▀█▄   ▒▓█    ▄ ▓██ ░▄█ ▒  ▒██ ██░ ▓██░ ██▓▒ ▒ ▓██░ ▒░
-  ▒██ █░░ ░██▄▄▄▄██  ▓██▒  ▐▌██▒░  ▓██▓ ░  ░██▄▄▄▄██  ▒▓▓▄ ▄██▒▒██▀▀█▄    ░ ▐██▓░ ▒██▄█▓▒ ▒ ░ ▓██▓ ░ 
-   ▒▀█░    ▓█   ▓██▒ ▒██░   ▓██░   ▒██▒ ░   ▓█   ▓██▒  ▒▓███▀ ░░██▓ ▒██▒  ░ ██▒▓░ ▒██▒ ░  ░   ▒██▒ ░ 
-░ ▐░    ▒▒   ▓▒█░ ░ ▒░   ▒ ▒    ▒ ░░     ▒▒   ▓▒█░ ░ ░▒ ▒  ░░ ▒▓ ░▒▓░   ██▒▒▒  ▒▓▒░ ░  ░  ▒ ░░   
-░ ░░     ▒   ▒▒ ░ ░ ░░   ░ ▒░     ░       ▒   ▒▒ ░   ░  ▒     ░▒ ░ ▒░ ▓ ░▒░  ░▒ ░         ░                                             
+░  ░░░░  ░░░      ░░░   ░░░  ░░        ░░░      ░░░░      ░░░       ░░░  ░░░░  ░░       ░░░        ░
+▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒    ▒▒  ▒▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒▒  ▒▒  ▒▒▒  ▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒
+▓▓  ▓▓  ▓▓▓  ▓▓▓▓  ▓▓  ▓  ▓  ▓▓▓▓▓  ▓▓▓▓▓  ▓▓▓▓  ▓▓  ▓▓▓▓▓▓▓▓       ▓▓▓▓▓    ▓▓▓▓       ▓▓▓▓▓▓  ▓▓▓▓
+███    ████        ██  ██    █████  █████        ██  ████  ██  ███  ██████  █████  ███████████  ████
+████  █████  ████  ██  ███   █████  █████  ████  ███      ███  ████  █████  █████  ███████████  ████
+                                                                                                                                           
 """
 
 _current_user = None
@@ -63,7 +62,7 @@ def set_user(username=None, uid=None):
 
 def show_banner():
     banner_text = Text(ASCII_BANNER.strip("\n"), style="bold #a855f7", justify="center")
-    subtitle = Text("MODULAR TERMINAL SECURITY SUITE  --  V 2.5", style="bold #06b6d4", justify="center")
+    subtitle = Text("SECURITY SUITE", style="bold #06b6d4", justify="center")
     motto = Text("Break the code. Secure the data. Protect the system.", style="#64748b", justify="center")
     panel = Panel(
         Group(banner_text, Text(""), subtitle, motto),
