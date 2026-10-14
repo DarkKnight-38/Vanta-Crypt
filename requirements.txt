@@ -1,3 +1,5 @@
+# Direct runtime dependencies; install with: python -m pip install -r requirements.txt
+# Keyboard menus and text, secret, confirmation, and filepath prompts.
 InquirerPy>=0.3.4
+# Terminal styling, panels, tables, and progress displays.
 rich>=13.0.0
-pwinput>=1.0.3
