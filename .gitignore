@@ -1,0 +1,14 @@
+# Standardize VantaCrypt UI and project documentation.
+# Python bytecode and local virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local credentials and vaults (does not untrack already committed files)
+/Data/
+
+# Local environment settings
+.env
+.env.*
+!.env.example
